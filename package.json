@@ -1,0 +1,37 @@
+{
+  "name": "calhighlight-monorepo",
+  "version": "1.0.0",
+  "description": "Calendar API with AI chat and Next.js web interface",
+  "private": true,
+  "workspaces": [
+    "api",
+    "web",
+    "shared"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:api\" \"npm run dev:web\"",
+    "dev:api": "npm run dev --workspace=api",
+    "dev:web": "npm run dev --workspace=web",
+    "build": "npm run build --workspaces",
+    "build:api": "npm run build --workspace=api",
+    "build:web": "npm run build --workspace=web",
+    "install:all": "npm install",
+    "clean": "rimraf node_modules api/node_modules web/node_modules shared/node_modules"
+  },
+  "keywords": [
+    "calendar",
+    "api",
+    "nextjs",
+    "langchain",
+    "monorepo"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "rimraf": "^5.0.5"
+  }
+}

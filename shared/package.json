@@ -1,0 +1,14 @@
+{
+  "name": "@calhighlight/shared",
+  "version": "1.0.0",
+  "description": "Shared types and utilities for Calendar Highlight",
+  "main": "index.ts",
+  "types": "index.ts",
+  "scripts": {},
+  "keywords": ["types", "shared"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}
