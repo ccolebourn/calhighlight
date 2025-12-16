@@ -5,9 +5,9 @@ import { Appointment } from '../models/appointment.model';
 
 // Zod schema for calendar tool input
 export const CalendarToolSchema = z.object({
-  date: z.string().optional().nullable().describe('A specific date in YYYY-MM-DD format (e.g., "2025-12-15"). Use this for single-day queries.'),
-  startDate: z.string().optional().nullable().describe('Start date for a date range in YYYY-MM-DD format. Must be used with endDate.'),
-  endDate: z.string().optional().nullable().describe('End date for a date range in YYYY-MM-DD format. Must be used with startDate.')
+  date: z.string().describe('A specific date in YYYY-MM-DD format (e.g., "2025-12-15"). Use this for single-day queries.').optional(),
+  startDate: z.string().describe('Start date for a date range in YYYY-MM-DD format. Must be used with endDate.').optional(),
+  endDate: z.string().describe('End date for a date range in YYYY-MM-DD format. Must be used with startDate.').optional()
 });
 export type CalendarToolInput = z.infer<typeof CalendarToolSchema>;
 
@@ -156,10 +156,12 @@ async function executeCalendarTool(
 export function createCalendarTool(accessToken: string): DynamicStructuredTool {
   const calendarService = new GoogleCalendarService();
 
+  // Use 'as any' to bypass TypeScript's excessive type depth checking
+  // This is a known issue with LangChain's DynamicStructuredTool and complex Zod schemas
   return new DynamicStructuredTool({
     name: 'get_calendar_appointments',
     description: TOOL_DESCRIPTION,
-    schema: CalendarToolSchema,
+    schema: CalendarToolSchema as any,
     func: async (input: CalendarToolInput) => executeCalendarTool(input, calendarService, accessToken)
-  });
+  }) as any;
 }
