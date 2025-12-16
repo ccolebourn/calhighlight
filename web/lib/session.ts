@@ -7,6 +7,7 @@ export interface SessionData {
   isLoggedIn: boolean;
 }
 
+/* Default session data */
 export const defaultSession: SessionData = {
   accessToken: '',
   refreshToken: '',
@@ -14,6 +15,7 @@ export const defaultSession: SessionData = {
   isLoggedIn: false,
 };
 
+/** Session options for iron-session */
 export const sessionOptions: SessionOptions = {
   password: process.env.SESSION_SECRET!,
   cookieName: 'calhighlight_session',

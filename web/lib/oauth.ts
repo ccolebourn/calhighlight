@@ -1,16 +1,26 @@
 import { google } from 'googleapis';
 
+/**
+ * Google OAuth 2.0 client setup
+ */
 const oauth2Client = new google.auth.OAuth2(
   process.env.GOOGLE_CLIENT_ID,
   process.env.GOOGLE_CLIENT_SECRET,
   process.env.GOOGLE_REDIRECT_URI
 );
 
+/**
+ * Scopes required for the Google Calendar API
+ */
 const SCOPES = [
   'https://www.googleapis.com/auth/calendar.readonly',
   'https://www.googleapis.com/auth/calendar.events'
 ];
 
+/**
+ * Generates the Google OAuth 2.0 authorization URL.
+ * @returns The Auth URL to start the OAuth process
+ */
 export function getAuthUrl(): string {
   const authUrl = oauth2Client.generateAuthUrl({
     access_type: 'offline',
@@ -43,6 +53,11 @@ export async function getTokensFromCode(code: string): Promise<{
   };
 }
 
+/* 
+ * Refreshes the access token using the provided refresh token.
+ * @param refreshToken - The refresh token to use for refreshing the access token.
+ * @returns A promise that resolves to an object containing the new access token and expiry date.
+ */
 export async function refreshAccessToken(refreshToken: string): Promise<{
   access_token: string;
   expiry_date: number;

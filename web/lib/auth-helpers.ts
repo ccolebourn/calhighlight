@@ -3,6 +3,12 @@ import { cookies } from 'next/headers';
 import { sessionOptions, SessionData } from './session';
 import { refreshAccessToken } from './oauth';
 
+/* 
+ * Get a valid access token from the session.
+ * If the token is expired or about to expire, refresh it.
+ * If the refresh fails, return an error and destroy the session.
+ * @returns { token, error? } - The valid access token or if the token is null, then an error message.
+ */
 export async function getValidAccessToken(): Promise<{
   token: string | null;
   error?: string;
@@ -43,6 +49,10 @@ export async function getValidAccessToken(): Promise<{
   return { token: session.accessToken };
 }
 
+/* 
+ * Get the current session data.
+ * @returns { accessToken, refreshToken, expiryDate, isLoggedIn } - The current session data.
+ */
 export async function getSession(): Promise<SessionData> {
   const session = await getIronSession<SessionData>(
     cookies(),
