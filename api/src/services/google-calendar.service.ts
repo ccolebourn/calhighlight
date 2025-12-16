@@ -57,6 +57,18 @@ export class GoogleCalendarService implements ICalendarService {
     endDate: Date,
     accessToken: string
   ): Promise<Appointment[]> {
+    // If startDate and endDate are the exact same, expand to full day
+    if (startDate.getTime() === endDate.getTime()) {
+      const dateToExpand = new Date(startDate);
+      startDate = new Date(dateToExpand);
+      startDate.setHours(0, 0, 0, 0);
+
+      endDate = new Date(dateToExpand);
+      endDate.setHours(23, 59, 59, 999);
+
+      console.log(`Same start/end date detected. Expanded to full day: ${startDate.toISOString()} to ${endDate.toISOString()}`);
+    }
+
     this.oauth2Client.setCredentials({
       access_token: accessToken
     });
@@ -68,6 +80,7 @@ export class GoogleCalendarService implements ICalendarService {
       await this.fetchColors(calendar);
     }
 
+    console.log(`Fetching appointments in service between ${startDate.toISOString()} and ${endDate.toISOString()}`);
     const response = await calendar.events.list({
       calendarId: 'primary',
       timeMin: startDate.toISOString(),

@@ -87,23 +87,23 @@ async function fetchAppointments(
 ): Promise<Appointment[]> {
   const { date, startDate, endDate } = input;
 
-  console.log('=== Fetching Appointments ===');
-  console.log('Parameters:', { date, startDate, endDate });
+  console.log('TOOL: === Fetching Appointments ===');
+  console.log('TOOL: Parameters:', { date, startDate, endDate });
 
   // Date range query
   if (startDate && endDate) {
-    console.log('Using date range query');
+    console.log('TOOL: Using date range query');
     const start = parseDateString(startDate);
     const end = parseDateString(endDate);
-    console.log('Parsed dates:', { start: start.toISOString(), end: end.toISOString() });
+    console.log('TOOL: Parsed dates:', { start: start.toISOString(), end: end.toISOString() });
     return await calendarService.getAppointmentsInRange(start, end, accessToken);
   }
 
   // Single date query
   if (date) {
-    console.log('Using single date query');
+    console.log('TOOL: Using single date query');
     const targetDate = parseDateString(date);
-    console.log('Parsed date:', targetDate.toISOString());
+    console.log('TOOL: Parsed date:', targetDate.toISOString());
     return await calendarService.getAppointments(targetDate, accessToken);
   }
 
