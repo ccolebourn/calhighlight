@@ -174,6 +174,7 @@ export class CalendarController {
       } else if (startDate && endDate && typeof startDate === 'string' && typeof endDate === 'string') {
         const start = this.parseDateString(startDate);
         const end = this.parseDateString(endDate);
+        if (end) end.setHours(23, 59, 59, 999);
 
         if (!start || !end) {
           res.status(400).json({

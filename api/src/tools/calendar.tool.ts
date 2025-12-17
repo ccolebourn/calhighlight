@@ -95,6 +95,7 @@ async function fetchAppointments(
     console.log('TOOL: Using date range query');
     const start = parseDateString(startDate);
     const end = parseDateString(endDate);
+    if (end) end.setHours(23, 59, 59, 999);
     console.log('TOOL: Parsed dates:', { start: start.toISOString(), end: end.toISOString() });
     return await calendarService.getAppointmentsInRange(start, end, accessToken);
   }
