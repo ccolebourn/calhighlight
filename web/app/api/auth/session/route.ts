@@ -3,6 +3,9 @@ import { getIronSession } from 'iron-session';
 import { cookies } from 'next/headers';
 import { sessionOptions, SessionData } from '@/lib/session';
 
+// Force dynamic rendering since this route uses cookies
+export const dynamic = 'force-dynamic';
+
 export async function GET() {
   try {
     const session = await getIronSession<SessionData>(
