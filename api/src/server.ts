@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { CalendarController } from './controllers/calendar.controller';
 import { ChatController } from './controllers/chat.controller';
+import { CategorySuggestionController } from './controllers/category-suggestion.controller';
 
 dotenv.config();
 
@@ -40,6 +41,7 @@ app.use(express.urlencoded({ extended: true }));
 
 const calendarController = new CalendarController('google');
 const chatController = new ChatController();
+const categorySuggestionController = new CategorySuggestionController();
 
 app.get('/', (req: Request, res: Response) => {
   res.json({
@@ -51,7 +53,9 @@ app.get('/', (req: Request, res: Response) => {
       appointments: 'GET /api/calendar/appointments?date=YYYY-MM-DD - Get appointments',
       appointmentsRange: 'GET /api/calendar/appointments?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD - Get appointments in range',
       updateColor: 'PATCH /api/calendar/appointments/:eventId/color - Update appointment color (body: {colorId: "1-11"})',
-      chat: 'POST /api/chat - Chat with AI assistant about your calendar (body: {message: string})'
+      chat: 'POST /api/chat - Chat with AI assistant about your calendar (body: {message: string})',
+      suggestCategories: 'POST /api/calendar/suggest-categories - AI-powered category suggestions (body: {message?: string, conversationHistory?: array})',
+      categorizeEvents: 'POST /api/calendar/categorize-events - Categorize events using AI (body: {categories: Category[], startDate: string, endDate: string})'
     }
   });
 });
@@ -61,6 +65,8 @@ app.get('/api/calendar/callback', calendarController.handleCallback);
 app.get('/api/calendar/appointments', calendarController.getAppointments);
 app.patch('/api/calendar/appointments/:eventId/color', calendarController.updateColor);
 app.post('/api/calendar/chat', chatController.chat);
+app.post('/api/calendar/suggest-categories', categorySuggestionController.suggestCategories);
+app.post('/api/calendar/categorize-events', categorySuggestionController.categorizeEvents);
 
 app.use((req: Request, res: Response) => {
   res.status(404).json({

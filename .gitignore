@@ -32,6 +32,7 @@ Thumbs.db
 *.swp
 *.swo
 *~
+.claude/
 
 # Testing
 coverage/
@@ -45,6 +46,10 @@ coverage/
 
 # TypeScript
 *.tsbuildinfo
+*.d.ts
+*.d.ts.map
+*.js.map
+shared/**/*.js
 
 # Next.js
 .next/
